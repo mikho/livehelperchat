@@ -1,5 +1,7 @@
 <?php
 
+use WHMCS\Database\Capsule;
+
 /*
  * *********************************************
  * ** LiveHelperChat Addon Module ***
@@ -74,23 +76,40 @@ function livehelperchat_output($vars) {
  	$modulelink = $vars['modulelink'];
     $LANG = $vars['_lang'];
 
-   
-    $q = @mysql_query("SELECT * FROM tbladdonmodules WHERE module = 'livehelperchat'");
+
+    // $q = @mysql_query("SELECT * FROM tbladdonmodules WHERE module = 'livehelperchat'");
+    $q = Capsule::table('tbladdonmodules')
+        ->select('*')
+        ->where('module', '=', 'livehelperchat')
+        ->get();
+
+        foreach ($q as $key) {
+      	      $settings[$key->setting] = $key->value;
+      	}
+    /*
     while ($arr = mysql_fetch_array($q)) {
         $settings[$arr['setting']] = $arr['value'];
     }
+    */
 
 
-    echo '<p>This addon helps integrate  http://livehelperchat.com/ to whmcs system. Thank you for using it.</p>';
-    echo '<p>Addon displays user profile in chat window on your live helper chat system. Bugs you can report by email nerijus.oftas@gmail.com</p>
-		  <p>Please donate for this addon development.
-<form action="https://www.paypal.com/cgi-bin/webscr" method="post"> <input name="cmd" type="hidden" value="_s-xclick" /> <input name="hosted_button_id" type="hidden" value="EXF6Y5HMU64F2" /> <input alt="PayPal - The safer, easier way to pay online!" name="submit" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" type="image" /><img src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" border="0" alt="" width="1" height="1" />
+    echo '<p>This addon helps integrate <a href="http://livehelperchat.com/" target="_blank">http://livehelperchat.com/</a> to whmcs system. Thank you for using it.</p>';
+    echo '<p>Addon displays user profile in chat window on your live helper chat system. Original code by nerijus.oftas@gmail.com</p>
+    <p>Code updated by <a href="https://github.com/mikho/livehelperchat" target="_blank">mikho.</a></p>
+      <p>Please donate for this addon development.
+      <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+      <input type="hidden" name="cmd" value="_s-xclick">
+      <input type="hidden" name="hosted_button_id" value="F9K2EPNL4XAP8">
+      <input type="image" src="https://www.paypalobjects.com/en_US/SE/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+      <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+      </form>
+
 
 </form>
 </p>';
 
 
-   
+
 }
 
 
