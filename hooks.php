@@ -28,7 +28,8 @@ function LiveHelperChatJS($vars) {
   foreach ($q as $key) {
 	      $settings[$key->setting] = $key->value;
 	}
-	
+
+
 	/* while ($arr = mysql_fetch_array($q)) {
 		$settings[$arr['setting']] = html_entity_decode($arr['value']);
 	}
@@ -105,20 +106,18 @@ function LiveHelperChatJS($vars) {
 		    $credit = $vars['clientsdetails']['credit'];
 
 		    $script .= "<script type=\"text/javascript\">
-		    	LHCChatOptions.attr = new Array();
-				LHCChatOptions.attr.push({'name':'First name','value':'$firstname','type':'hidden','size':6,'req':false});
-				LHCChatOptions.attr.push({'name':'Last name','value':'$lastname','type':'hidden','size':6,'req':false});
-				LHCChatOptions.attr.push({'name':'Email','value':'$email','type':'hidden','size':6,'req':false});
-				LHCChatOptions.attr.push({'name':'Company name','value':'$companyname','type':'hidden','size':6,'req':false});
-				LHCChatOptions.attr.push({'name':'Credit','value':'$credit','type':'hidden','size':6,'req':false});";
+		    LHCChatOptions.attr_prefill = new Array();
+				LHCChatOptions.attr_prefill.push({'name':'username','value':'$firstname','type':'hidden','size':6,'req':false});
+				LHCChatOptions.attr_prefill.push({'name':'email','value':'$email','type':'hidden','size':6,'req':false});
+				LHCChatOptions.attr_prefill.push({'name':'Company name','value':'$companyname','type':'hidden','size':6,'req':false});
+				LHCChatOptions.attr_prefill.push({'name':'Credit','value':'$credit','type':'hidden','size':6,'req':false});";
 		    	if(count($results['domains']['domain'])) {
-					foreach($results['domains']['domain'] as $domain) {
-						$domainname = $domain['domainname'];
-						$script .="LHCChatOptions.attr.push({'name':'Domain name','value':'$domainname','type':'hidden','size':6,'req':false});";
-						$script .="LHCChatOptions.attr.push({'name':'{$domain['domainname']} expiry date','value':'{$domain['expirydate']}','type':'hidden','size':6,'req':false});";
-						$script .="LHCChatOptions.attr.push({'name':'{$domain['domainname']} registrar','value':'{$domain['registrar']}','type':'hidden','size':6,'req':false});";
-					}
-
+						foreach($results['domains']['domain'] as $domain) {
+							$domainname = $domain['domainname'];
+							$script .="LHCChatOptions.attr_prefill.push({'name':'Domain name','value':'$domainname','type':'hidden','size':6,'req':false});";
+							$script .="LHCChatOptions.attr_prefill.push({'name':'{$domain['domainname']} expiry date','value':'{$domain['expirydate']}','type':'hidden','size':6,'req':false});";
+							$script .="LHCChatOptions.attr_prefill.push({'name':'{$domain['domainname']} registrar','value':'{$domain['registrar']}','type':'hidden','size':6,'req':false});";
+						}
 		    	}
 
 		    	if(count($unpaidinvoices['invoices']['invoice'])) {
@@ -126,18 +125,18 @@ function LiveHelperChatJS($vars) {
 						$invoicenumber = $invoice['invoicenum'];
 						$invoiceid = $invoice['id'];
 						$inv = $invoicenumber.'(ID:'.$invoiceid.')';
-						$script .="LHCChatOptions.attr.push({'name':'Unpaid invoice','value':'$inv','type':'hidden','size':6,'req':false});";
-						$script .="LHCChatOptions.attr.push({'name':'{$inv} duedate','value':'{$invoice['duedate']}','type':'hidden','size':6,'req':false});";
-						$script .="LHCChatOptions.attr.push({'name':'{$inv} subtotal','value':'{$invoice['subtotal']}','type':'hidden','size':6,'req':false});";
+						$script .="LHCChatOptions.attr_prefill.push({'name':'Unpaid invoice','value':'$inv','type':'hidden','size':6,'req':false});";
+						$script .="LHCChatOptions.attr_prefill.push({'name':'{$inv} duedate','value':'{$invoice['duedate']}','type':'hidden','size':6,'req':false});";
+						$script .="LHCChatOptions.attr_prefill.push({'name':'{$inv} subtotal','value':'{$invoice['subtotal']}','type':'hidden','size':6,'req':false});";
 					}
 
 		    	}
 
    	    	    if(count($products_results['products']['product'])) {
 					foreach($results['products']['product'] as $products) {
-						$script .="LHCChatOptions.attr.push({'name':'Service name','value':'{$products['name']}','type':'hidden','size':6,'req':false});";
-						$script .="LHCChatOptions.attr.push({'name':'{$products['name']} server ip','value':'{$products['serverip']}','type':'hidden','size':6,'req':false});";
-						$script .="LHCChatOptions.attr.push({'name':'{$products['name']} next due date','value':'{$products['nextduedate']}','type':'hidden','size':6,'req':false});";
+						$script .="LHCChatOptions.attr_prefill.push({'name':'Service name','value':'{$products['name']}','type':'hidden','size':6,'req':false});";
+						$script .="LHCChatOptions.attr_prefill.push({'name':'{$products['name']} server ip','value':'{$products['serverip']}','type':'hidden','size':6,'req':false});";
+						$script .="LHCChatOptions.attr_prefill.push({'name':'{$products['name']} next due date','value':'{$products['nextduedate']}','type':'hidden','size':6,'req':false});";
 					}
 		    	}
 		    	$script .= "</script>";
@@ -148,7 +147,7 @@ function LiveHelperChatJS($vars) {
 		var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
 		var refferer = (document.referrer) ? encodeURIComponent(document.referrer.substr(document.referrer.indexOf('://')+1)) : '';
 		var location  = (document.location) ? encodeURIComponent(window.location.href.substring(window.location.protocol.length)) : '';
-		po.src = '{$settings['widget_domain']}/chat/getstatus/(top)/{$settings['pos_top']}/(units)/{$settings['unit']}/$url?r='+refferer+'&l='+location;
+		po.src = '{$settings['widget_domain']}/eng/chat/getstatus/(top)/{$settings['pos_top']}/(units)/{$settings['unit']}/$url?r='+refferer+'&l='+location;
 		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
 		})();
 		</script>";

@@ -76,7 +76,6 @@ function livehelperchat_output($vars) {
  	$modulelink = $vars['modulelink'];
     $LANG = $vars['_lang'];
 
-
     // $q = @mysql_query("SELECT * FROM tbladdonmodules WHERE module = 'livehelperchat'");
     $q = Capsule::table('tbladdonmodules')
         ->select('*')
@@ -92,7 +91,6 @@ function livehelperchat_output($vars) {
     }
     */
 
-
     echo '<p>This addon helps integrate <a href="http://livehelperchat.com/" target="_blank">http://livehelperchat.com/</a> to whmcs system. Thank you for using it.</p>';
     echo '<p>Addon displays user profile in chat window on your live helper chat system. Original code by nerijus.oftas@gmail.com</p>
     <p>Code updated by <a href="https://github.com/mikho/livehelperchat" target="_blank">mikho.</a></p>
@@ -107,11 +105,5 @@ function livehelperchat_output($vars) {
 
 </form>
 </p>';
-
-
-
 }
-
-
-
 ?>
