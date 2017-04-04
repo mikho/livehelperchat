@@ -19,6 +19,7 @@ Live helper chat addon for WHMCS
  *********************************************
  
 
- Do not forget to donate for addon development. http://nerijuso.lt/donate.html
+If you like and use this addon, please donate for addon development. You can find the donate link in the addons section on the admin pages.
+ 
  Thank you!
  
