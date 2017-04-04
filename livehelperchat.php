@@ -28,9 +28,9 @@ if (!defined("WHMCS"))
 function livehelperchat_config() {
     $configarray = array(
         "name" => "Live Helper Chat",
-        "description" => "This is chat module that using Live Helper Chat",
-        "version" => "1.0",
-        "author" => "nerijuso.lt",
+        "description" => "This is chat module that using Live Helper Chat. Original code by https://github.com/nerijuso/livehelperchat. Updated by me, mikho.",
+        "version" => "2.0",
+        "author" => "mikho",
         "language" => "english",
         "fields" => array(
         	"enabled"=> array("widgetCode" => "Enable", "Type" => "yesno",  "Description" => "Enable Live Helper Chat widget", "Default" => "",),
