@@ -101,7 +101,8 @@ function LiveHelperChatJS($vars) {
 
 		    $firstname = $vars['clientsdetails']['firstname'];
 		    $lastname = $vars['clientsdetails']['lastname'];
-		    $email = $vars['clientsdetails']["email"];
+		    $email = $vars['clientsdetails']['email'];
+				$phone = $vars['clientsdetails']['phonenumber'];
 		    $companyname = $vars['clientsdetails']['companyname'];
 		    $credit = $vars['clientsdetails']['credit'];
 
@@ -110,7 +111,8 @@ function LiveHelperChatJS($vars) {
 				LHCChatOptions.attr_prefill.push({'name':'username','value':'$firstname $lastname','type':'hidden','size':6,'req':false});
 				LHCChatOptions.attr_prefill.push({'name':'email','value':'$email','type':'hidden','size':6,'req':false});
 				LHCChatOptions.attr_prefill.push({'name':'Company name','value':'$companyname','type':'hidden','size':6,'req':false});
-				LHCChatOptions.attr_prefill.push({'name':'Credit','value':'$credit','type':'hidden','size':6,'req':false});";
+				LHCChatOptions.attr_prefill.push({'name':'credit','value':'$credit','type':'hidden','size':6,'req':false});
+				LHCChatOptions.attr_prefill.push({'name':'phone','value':'$phone','type':'hidden','size':6,'req':false});";
 		    	if(count($results['domains']['domain'])) {
 						foreach($results['domains']['domain'] as $domain) {
 							$domainname = $domain['domainname'];
