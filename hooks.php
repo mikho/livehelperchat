@@ -107,7 +107,7 @@ function LiveHelperChatJS($vars) {
 
 		    $script .= "<script type=\"text/javascript\">
 		    LHCChatOptions.attr_prefill = new Array();
-				LHCChatOptions.attr_prefill.push({'name':'username','value':'$firstname','type':'hidden','size':6,'req':false});
+				LHCChatOptions.attr_prefill.push({'name':'username','value':'$firstname $lastname','type':'hidden','size':6,'req':false});
 				LHCChatOptions.attr_prefill.push({'name':'email','value':'$email','type':'hidden','size':6,'req':false});
 				LHCChatOptions.attr_prefill.push({'name':'Company name','value':'$companyname','type':'hidden','size':6,'req':false});
 				LHCChatOptions.attr_prefill.push({'name':'Credit','value':'$credit','type':'hidden','size':6,'req':false});";
