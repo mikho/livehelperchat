@@ -7,19 +7,16 @@ use WHMCS\Database\Capsule;
  * ** LiveHelperChat Addon Module ***
 
   If you don't have one, please register here
-  https://www.zopim.com/signup/trial
+  https://livehelperchat.com/
 
-  More About Zopim
-  http://www.zopim.com
-  Zopim is registered by Zopim Technologies Pte Ltd
+  More About livehelperchat.com
+  https://livehelperchat.com/
 
  * *********************************************
  */
 
 function LiveHelperChatJS($vars) {
 
-
-	// $q = @mysql_query("SELECT * FROM tbladdonmodules WHERE module = 'livehelperchat'");
 	$q = Capsule::table('tbladdonmodules')
 			->select('*')
 			->where('module', '=', 'livehelperchat')
@@ -28,12 +25,6 @@ function LiveHelperChatJS($vars) {
   foreach ($q as $key) {
 	      $settings[$key->setting] = $key->value;
 	}
-
-
-	/* while ($arr = mysql_fetch_array($q)) {
-		$settings[$arr['setting']] = html_entity_decode($arr['value']);
-	}
-	*/
 
 	if ( $_SESSION['uid'] == null && $settings['show_for_logged'] == 'on') {
 		return;
@@ -76,16 +67,16 @@ function LiveHelperChatJS($vars) {
 		$url .= '(position)/middle_left/';
 	}
 
-
 	if($settings['enabled']) {
 		$script = "<script type=\"text/javascript\">
-		var LHCChatOptions = {};</script>";
+		var LHCChatOptions = {};
+			LHCChatOptions.attr_online = new Array();";
 
 		if ($_SESSION['uid']) {
 			$userid = $_SESSION['uid'];
 
 			$command = "getclientsdomains";
-			$adminuser = "admin";
+		  $adminuser = "admin";
 			$values["clientid"] = $userid;
 
 			$results = localAPI($command,$values,$adminuser);
@@ -106,39 +97,42 @@ function LiveHelperChatJS($vars) {
 		    $companyname = $vars['clientsdetails']['companyname'];
 		    $credit = $vars['clientsdetails']['credit'];
 
-		    $script .= "<script type=\"text/javascript\">
+				// <script type=\"text/javascript\">
+		    $script .= "
 		    LHCChatOptions.attr_prefill = new Array();
+
 				LHCChatOptions.attr_prefill.push({'name':'username','value':'$firstname $lastname','type':'hidden','size':6,'req':false});
 				LHCChatOptions.attr_prefill.push({'name':'email','value':'$email','type':'hidden','size':6,'req':false});
 				LHCChatOptions.attr_prefill.push({'name':'Company name','value':'$companyname','type':'hidden','size':6,'req':false});
 				LHCChatOptions.attr_prefill.push({'name':'credit','value':'$credit','type':'hidden','size':6,'req':false});
 				LHCChatOptions.attr_prefill.push({'name':'phone','value':'$phone','type':'hidden','size':6,'req':false});";
+
 		    	if(count($results['domains']['domain'])) {
 						foreach($results['domains']['domain'] as $domain) {
 							$domainname = $domain['domainname'];
-							$script .="LHCChatOptions.attr_prefill.push({'name':'Domain name','value':'$domainname','type':'hidden','size':6,'req':false});";
-							$script .="LHCChatOptions.attr_prefill.push({'name':'{$domain['domainname']} expiry date','value':'{$domain['expirydate']}','type':'hidden','size':6,'req':false});";
-							$script .="LHCChatOptions.attr_prefill.push({'name':'{$domain['domainname']} registrar','value':'{$domain['registrar']}','type':'hidden','size':6,'req':false});";
+							$script .="LHCChatOptions.attr_online.push({'name':'Domain name','value':'$domainname','type':'hidden','size':6,'req':false});";
+							$script .="LHCChatOptions.attr_online.push({'name':'{$domain['domainname']} expiry date','value':'{$domain['expirydate']}','type':'hidden','size':6,'req':false});";
+							$script .="LHCChatOptions.attr_online.push({'name':'{$domain['domainname']} registrar','value':'{$domain['registrar']}','type':'hidden','size':6,'req':false});";
 						}
 		    	}
+
 
 		    	if(count($unpaidinvoices['invoices']['invoice'])) {
 					foreach($unpaidinvoices['invoices']['invoice'] as $invoice) {
 						$invoicenumber = $invoice['invoicenum'];
 						$invoiceid = $invoice['id'];
 						$inv = $invoicenumber.'(ID:'.$invoiceid.')';
-						$script .="LHCChatOptions.attr_prefill.push({'name':'Unpaid invoice','value':'$inv','type':'hidden','size':6,'req':false});";
-						$script .="LHCChatOptions.attr_prefill.push({'name':'{$inv} duedate','value':'{$invoice['duedate']}','type':'hidden','size':6,'req':false});";
-						$script .="LHCChatOptions.attr_prefill.push({'name':'{$inv} subtotal','value':'{$invoice['subtotal']}','type':'hidden','size':6,'req':false});";
+						$script .="LHCChatOptions.attr_online.push({'name':'Unpaid invoice','value':'$inv','type':'visible','size':6,'req':false});";
+						$script .="LHCChatOptions.attr_online.push({'name':'{$inv} duedate','value':'{$invoice['duedate']}','type':'visible','size':6,'req':false});";
+						$script .="LHCChatOptions.attr_online.push({'name':'{$inv} subtotal','value':'{$invoice['subtotal']}','type':'visible','size':6,'req':false});";
 					}
 
 		    	}
-
-   	    	    if(count($products_results['products']['product'])) {
-					foreach($results['products']['product'] as $products) {
-						$script .="LHCChatOptions.attr_prefill.push({'name':'Service name','value':'{$products['name']}','type':'hidden','size':6,'req':false});";
-						$script .="LHCChatOptions.attr_prefill.push({'name':'{$products['name']} server ip','value':'{$products['serverip']}','type':'hidden','size':6,'req':false});";
-						$script .="LHCChatOptions.attr_prefill.push({'name':'{$products['name']} next due date','value':'{$products['nextduedate']}','type':'hidden','size':6,'req':false});";
+   	    	if(count($products_results['products']['product'])) {
+					foreach($products_results['products']['product'] as $products) {
+						$script .="LHCChatOptions.attr_online.push({'name':'Service name','value':'{$products['name']}','type':'hidden','size':6,'req':false});";
+						$script .="LHCChatOptions.attr_online.push({'name':'{$products['name']} server ip','value':'{$products['serverip']}','type':'hidden','size':6,'req':false});";
+						$script .="LHCChatOptions.attr_online.push({'name':'{$products['name']} next due date','value':'{$products['nextduedate']}','type':'hidden','size':6,'req':false});";
 					}
 		    	}
 		    	$script .= "</script>";
