@@ -97,7 +97,7 @@ function LiveHelperChatJS($vars) {
 		    $companyname = $vars['clientsdetails']['companyname'];
 		    $credit = $vars['clientsdetails']['credit'];
 
-				// <script type=\"text/javascript\">
+
 		    $script .= "
 		    LHCChatOptions.attr_prefill = new Array();
 
@@ -135,9 +135,10 @@ function LiveHelperChatJS($vars) {
 						$script .="LHCChatOptions.attr_online.push({'name':'{$products['name']} next due date','value':'{$products['nextduedate']}','type':'hidden','size':6,'req':false});";
 					}
 		    	}
-		    	$script .= "</script>";
-		}
 
+		}
+		$script .= "</script>";
+		
 		$script .= "<script type=\"text/javascript\">\nLHCChatOptions.opt = {widget_height:".$settings['widget_height'].",widget_width:".$settings['widget_height'].",popup_height:".$settings['popup_height'].",popup_width:".$settings['popup_width']."};
 		(function() {
 		var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
