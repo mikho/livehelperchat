@@ -67,6 +67,9 @@ function LiveHelperChatJS($vars) {
 		$url .= '(position)/middle_left/';
 	}
 
+	if ($settings['widget_department'] != NULL) {
+		$url .= '(department)/'.$settings["widget_department"].'/';
+	}
 	if($settings['enabled']) {
 		$script = "<script type=\"text/javascript\">
 		var LHCChatOptions = {};
@@ -138,7 +141,7 @@ function LiveHelperChatJS($vars) {
 
 		}
 		$script .= "</script>";
-		
+
 		$script .= "<script type=\"text/javascript\">\nLHCChatOptions.opt = {widget_height:".$settings['widget_height'].",widget_width:".$settings['widget_height'].",popup_height:".$settings['popup_height'].",popup_width:".$settings['popup_width']."};
 		(function() {
 		var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
